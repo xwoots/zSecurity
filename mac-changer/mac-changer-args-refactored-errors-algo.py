@@ -25,10 +25,11 @@ def change_mac(interface, mac_address):
 
 
 def get_current_mac(interface):
-    ifconfig_result = subprocess.getoutput(["ifconfig", interface])
-    # For Python 2.7 use > subprocess.check_output
+    ifconfig_result = subprocess.check_output(["ifconfig", interface])
+    # For Python 3.X use > subprocess.getoutput.
+    # Or for Python 3.X use > subprocess.check_output and convert "ifconfig_result" to a string.
 
-    match = re.search(r".*?ether\s(.*)\s{2}txq.*", ifconfig_result)
+    match = re.search(r".*?ether\s(.*)\s{2}txq.*", str(ifconfig_result))
     if match:
         return match.group(1)
     else:
