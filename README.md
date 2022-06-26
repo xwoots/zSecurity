@@ -25,7 +25,7 @@ Whenever the EC2 instance starts, it will run a script that will:
 * Retrieve the instance's current public IP address
 * Update the Route 53 record set with the new IP address
 
-```bash
+>```bash
 #!/bin/bash
 # Extract information about the Instance
 INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id/)
