@@ -40,7 +40,7 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_TAG --change-batc
 
 To execute the script automatically each time the instance starts (as opposed to User Data scripts that only run on the first boot), put the above script in this directory:
 
-` /var/lib/cloud/scripts/per-boot/
+``` /var/lib/cloud/scripts/per-boot/ ```
 
 Finally, the EC2 instance will need an IAM Role assigned that has permission to run the above commands:
 
