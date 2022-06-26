@@ -72,4 +72,6 @@ Then, return to Route 53 and look at the IP address assigned to the A-Record. It
 
 ---
 
+I'm not the author of this guide, see credits below.
+
 Credits / Source : https://dev.to/aws/amazon-route-53-how-to-automatically-update-ip-addresses-without-using-elastic-ips-h7o
