@@ -42,7 +42,7 @@ To execute the script automatically each time the instance starts (as opposed to
 
 ``` /var/lib/cloud/scripts/per-boot/ ```
 
-Finally, the EC2 instance will need an IAM Role assigned that has permission to run the above commands:
+Finally, the EC2 instance will need an IAM Role assigned that has permission to run the above commands (Replace HOSTED-ZONE-ID by the ID you retrieved):
 
 ```json
 {
@@ -69,3 +69,5 @@ To test the script, simply Stop the instance then Start it again.
 This will result in a new public IP address being assigned to the instance. The script will call Amazon Route 53 to update the record set. This might take a minute to update.
 
 Then, return to Route 53 and look at the IP address assigned to the A-Record. It should be updated with the new IP address.
+
+Credits / Source : https://dev.to/aws/amazon-route-53-how-to-automatically-update-ip-addresses-without-using-elastic-ips-h7o
