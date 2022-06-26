@@ -17,10 +17,6 @@ Next, add some tags to the EC2 instance that will be used by the script:
 * **DNS Name**: The DNS Name to associate with the instance
 * **Hosted Zone ID**: Uniquely identifies the Zone record in Route 53 that needs to be updated (get it from your Route 53 Hosted Zone record)
 
-![capture](/readme/ec2_tags.png)
-
-<img style="float: left;" src="/readme/ec2_tags.png">
-
 Whenever the EC2 instance starts, it will run a script that will:
 
 * Grab the information from the above tags
@@ -41,3 +37,35 @@ NAME_TAG=$(aws ec2 describe-tags --region ${AZ::-1} --filters "Name=resource-id,
 # Update Route 53 Record Set based on the Name tag to the current Public IP address of the Instance
 aws route53 change-resource-record-sets --hosted-zone-id $ZONE_TAG --change-batch '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"'$NAME_TAG'","Type":"A","TTL":300,"ResourceRecords":[{"Value":"'$MY_IP'"}]}}]}'
 ```
+
+To execute the script automatically each time the instance starts (as opposed to User Data scripts that only run on the first boot), put the above script in this directory:
+
+` /var/lib/cloud/scripts/per-boot/
+
+Finally, the EC2 instance will need an IAM Role assigned that has permission to run the above commands:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ec2:DescribeTags",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "route53:ChangeResourceRecordSets",
+            "Resource": "arn:aws:route53:::hostedzone/HOSTED-ZONE-ID"
+        }
+    ]
+}
+```
+
+## How to test
+
+To test the script, simply Stop the instance then Start it again.
+
+This will result in a new public IP address being assigned to the instance. The script will call Amazon Route 53 to update the record set. This might take a minute to update.
+
+Then, return to Route 53 and look at the IP address assigned to the A-Record. It should be updated with the new IP address.
