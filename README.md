@@ -19,6 +19,8 @@ Next, add some tags to the EC2 instance that will be used by the script:
 
 ![capture](/readme/ec2_tags.png)
 
+<img style="float: left;" src="/readme/ec2_tags.png">
+
 Whenever the EC2 instance starts, it will run a script that will:
 
 * Grab the information from the above tags
