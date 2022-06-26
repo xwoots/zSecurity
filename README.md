@@ -70,4 +70,6 @@ This will result in a new public IP address being assigned to the instance. The 
 
 Then, return to Route 53 and look at the IP address assigned to the A-Record. It should be updated with the new IP address.
 
+---
+
 Credits / Source : https://dev.to/aws/amazon-route-53-how-to-automatically-update-ip-addresses-without-using-elastic-ips-h7o
